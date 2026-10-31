@@ -44,7 +44,7 @@ const Hero = () => {
             <div className="pointer-events-none absolute right-0 top-0 -z-10 h-96 w-96 rounded-full bg-brand-accent/10 blur-3xl" />
 
             {/* Hero Main Area */}
-            <div className="relative mx-auto grid w-full max-w-[1500px] flex-1 items-center gap-10 px-4 pb-10 pt-32 sm:px-6 sm:pt-36 lg:grid-cols-2 lg:px-8 lg:pb-12 lg:pt-28">
+            <div className="relative mx-auto grid w-full max-w-375 flex-1 items-center gap-10 px-4 pb-10 pt-32 sm:px-6 sm:pt-36 lg:grid-cols-2 lg:px-8 lg:pb-12 lg:pt-28">
                 {/* Left Content */}
                 <div className="relative z-10">
                     {/* Badge */}
@@ -119,7 +119,7 @@ const Hero = () => {
                 </div>
 
                 {/* Right Hero Image */}
-                <div className="relative min-h-[360px] w-full sm:min-h-[480px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-[52%]">
+                <div className="relative min-h-90 w-full sm:min-h-120 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-[52%]">
                     <div className="absolute -right-8 top-20 h-48 w-48 rounded-full bg-brand-accent/20 blur-3xl" />
 
                     {/* Image Container */}
@@ -127,7 +127,7 @@ const Hero = () => {
                         <HeroImage/>
 
                         {/* Soft Overlay */}
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/15 via-transparent to-transparent" />
+                        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/15 via-transparent to-transparent" />
                     </div>
 
                     {/* Floating Caption */}
@@ -151,7 +151,7 @@ const Hero = () => {
             </div>
 
             {/* Feature Cards */}
-            <div className="relative z-20 mx-auto grid w-full max-w-[1400px] gap-4 px-4 pb-8 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
+            <div className="relative z-20 mx-auto grid w-full max-w-350 gap-4 px-4 pb-8 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
                 {features.map((feature) => {
                     const Icon = feature.icon;
 

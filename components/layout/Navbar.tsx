@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Heart, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import ThemeToggle from '../shared/ThemeToggle';
 import Image from 'next/image';
 
@@ -12,7 +12,7 @@ const navLinks = [
     { href: '/upcoming-events', label: 'Upcoming Events' },
 ];
 
-const Logo = () => (
+export const Logo = () => (
     <div className="flex items-center">
         <div className="relative flex h-10 w-10 items-center justify-center">
             <Image src='/logo.png' width={72} height={72} alt='Logo'/>
@@ -41,7 +41,7 @@ const Navbar = () => {
                 isHome ? 'absolute left-0 top-0' : 'sticky top-0'
             }`}
         >
-            <nav className="relative mx-auto flex h-[72px] max-w-[1500px] items-center justify-between rounded-3xl border border-border/70 bg-card/85 px-5 shadow-sm backdrop-blur-xl sm:px-8">
+            <nav className="relative mx-auto flex h-18 max-w-375 items-center justify-between rounded-3xl border border-border/70 bg-card/85 px-5 shadow-sm backdrop-blur-xl sm:px-8">
                 {/* Logo */}
                 <Link href="/" onClick={closeMenu} className="shrink-0">
                     <Logo />
