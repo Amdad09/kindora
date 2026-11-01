@@ -1,3 +1,4 @@
+// import SessionStatus from '@/components/auth/SessionStatus';
 import Gallery from '@/components/home/Gallery';
 import Hero from '@/components/home/Hero';
 import Newsletter from '@/components/home/Newsletter';
@@ -8,15 +9,16 @@ export default function Home() {
     return (
         <main className="flex-1">
             <Hero />
+            {/* <SessionStatus/> */}
             <Suspense
                 fallback={
                     <p className="py-20 text-center">Loading events...</p>
                 }
             >
                 <RecentEvents />
+            </Suspense>
                 <Gallery />
                 <Newsletter />
-            </Suspense>
         </main>
     );
 }

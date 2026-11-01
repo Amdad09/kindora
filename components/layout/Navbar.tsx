@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import ThemeToggle from '../shared/ThemeToggle';
 import Image from 'next/image';
+import AuthAction from '../auth/AuthAction';
 
 const navLinks = [
     { href: '/', label: 'Home' },
@@ -27,7 +28,6 @@ export const Logo = () => (
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
-
     const isHome = pathname === '/';
 
     const closeMenu = () => setIsOpen(false);
@@ -72,12 +72,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-3">
                     <ThemeToggle />
 
-                    <Link
-                        href="/login"
-                        className="hidden rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 md:inline-flex"
-                    >
-                        Login
-                    </Link>
+                    <AuthAction />
 
                     {/* Mobile Menu Button */}
                     <button
@@ -119,13 +114,7 @@ const Navbar = () => {
                             </Link>
                         ))}
 
-                        <Link
-                            href="/login"
-                            onClick={closeMenu}
-                            className="mt-2 rounded-xl bg-primary px-5 py-3 text-center font-semibold text-primary-foreground"
-                        >
-                            Login
-                        </Link>
+                        <AuthAction mobile onNavigate={closeMenu} />
                     </div>
                 </div>
             )}
