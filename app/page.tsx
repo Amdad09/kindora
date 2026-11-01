@@ -1,4 +1,5 @@
 // import SessionStatus from '@/components/auth/SessionStatus';
+// import TestJWT from '@/components/auth/TestJWT';
 import Gallery from '@/components/home/Gallery';
 import Hero from '@/components/home/Hero';
 import Newsletter from '@/components/home/Newsletter';
@@ -9,6 +10,7 @@ export default function Home() {
     return (
         <main className="flex-1">
             <Hero />
+            {/* <TestJWT /> */}
             {/* <SessionStatus/> */}
             <Suspense
                 fallback={
@@ -17,8 +19,8 @@ export default function Home() {
             >
                 <RecentEvents />
             </Suspense>
-                <Gallery />
-                <Newsletter />
+            <Gallery />
+            <Newsletter />
         </main>
     );
 }

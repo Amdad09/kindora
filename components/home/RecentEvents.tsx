@@ -4,8 +4,10 @@ import { ArrowRight } from 'lucide-react';
 import { getUpcomingEvents } from '@/lib/api/events';
 import type { Event } from '@/types/event';
 import EventCard from '../events/EventCard';
+import { connection } from 'next/server';
 
 const RecentEvents = async () => {
+    await connection()
     let events: Event[] = [];
     try {
         events = await getUpcomingEvents(6);

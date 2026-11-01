@@ -1,6 +1,7 @@
 import { mongodbAdapter } from '@better-auth/mongo-adapter';
 import { betterAuth } from 'better-auth';
 import { MongoClient } from 'mongodb';
+import { jwt } from 'better-auth/plugins';
 
 export const envUrl = (name: string) => {
     const result = process.env[name];
@@ -32,7 +33,7 @@ export const auth = betterAuth({
     }),
     emailAndPassword: {
         enabled: true,
-        autoSignIn: false,
+        autoSignIn: true,
     },
     socialProviders: {
         google: {
@@ -40,4 +41,6 @@ export const auth = betterAuth({
             clientSecret: envUrl('BETTER_AUTH_GOOGLE_CLIENT_SECRET'),
         },
     },
+
+    plugins: [jwt()]
 });

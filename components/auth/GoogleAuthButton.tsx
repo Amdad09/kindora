@@ -1,4 +1,5 @@
 import { signIn } from '@/lib/auth-client';
+import { getSafeCallbackURL } from '@/lib/auth-redirect';
 import { useState } from 'react';
 import { toast } from 'sonner';
 const GoogleIcon = () => (
@@ -30,7 +31,7 @@ const GoogleAuthButton = () => {
 
             const { error } = await signIn.social({
                 provider: 'google',
-                callbackURL: '/',
+                callbackURL: getSafeCallbackURL(),
             });
 
             if (error) {
