@@ -1,20 +1,24 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { useState } from 'react';
 
 import {
     createEventSchema,
     type CreateEventFormValues,
 } from '@/lib/validations/event.schema';
 
-import { createEvent } from '@/lib/api/events';
+import { createEvent, updateEvent } from '@/lib/api/events';
+
+import type { Event } from '@/types/event';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+
 import {
     Select,
     SelectContent,
@@ -22,6 +26,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+
 import {
     Card,
     CardContent,
@@ -47,7 +52,27 @@ const defaultValues: CreateEventFormValues = {
     eventDate: '',
 };
 
-export default function CreateEventForm() {
+type CreateEventFormProps = {
+    event?: Event;
+};
+
+const toLocalDateTimeInput = (date: string | Date) => {
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+        return '';
+    }
+
+    const localDate = new Date(
+        parsedDate.getTime() - parsedDate.getTimezoneOffset() * 60_000,
+    );
+
+    return localDate.toISOString().slice(0, 16);
+};
+
+export default function CreateEventForm({ event }: CreateEventFormProps) {
+    const router = useRouter();
+
     const [serverError, setServerError] = useState('');
 
     const {
@@ -65,14 +90,38 @@ export default function CreateEventForm() {
     // eslint-disable-next-line react-hooks/incompatible-library
     const imageUrl = watch('imageUrl');
 
+    // Load existing event data in Edit mode
+    useEffect(() => {
+        if (!event) return;
+
+        reset({
+            title: event.title,
+            description: event.description,
+            eventType: event.eventType,
+            imageUrl: event.imageUrl,
+            location: event.location,
+            eventDate: toLocalDateTimeInput(event.eventDate),
+        });
+    }, [event, reset]);
+
     const onSubmit = async (values: CreateEventFormValues) => {
         setServerError('');
 
         try {
-            await createEvent(values);
+            if (event) {
+                await updateEvent(event._id, values);
 
-            toast.success('Event created successfully!');
-            reset(defaultValues);
+                toast.success('Event updated successfully!');
+
+                router.push('/manage-events');
+                router.refresh();
+            } else {
+                await createEvent(values);
+
+                toast.success('Event created successfully!');
+
+                reset(defaultValues);
+            }
         } catch (error) {
             const message =
                 error instanceof Error ? error.message : 'Something went wrong';
@@ -90,20 +139,28 @@ export default function CreateEventForm() {
                 </p>
 
                 <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                    Create an Event
+                    {event ? 'Edit Event' : 'Create an Event'}
                 </h1>
 
                 <p className="text-muted-foreground">
-                    Bring people together and create a positive impact in your
-                    community.
+                    {event
+                        ? 'Update your event information and keep your community informed.'
+                        : 'Bring people together and create a positive impact in your community.'}
                 </p>
             </div>
 
             <Card className="border-border/70 shadow-sm">
                 <CardHeader>
-                    <CardTitle>Event Information</CardTitle>
+                    <CardTitle>
+                        {event
+                            ? 'Update Event Information'
+                            : 'Event Information'}
+                    </CardTitle>
+
                     <CardDescription>
-                        Fill in the details below to publish your event.
+                        {event
+                            ? 'Update the details of your existing event.'
+                            : 'Fill in the details below to publish your event.'}
                     </CardDescription>
                 </CardHeader>
 
@@ -260,7 +317,7 @@ export default function CreateEventForm() {
                             <Input
                                 id="imageUrl"
                                 type="url"
-                                placeholder="https://unsplash.com/photos/event-image.jpg"
+                                placeholder="https://example.com/event-image.jpg"
                                 {...register('imageUrl')}
                             />
 
@@ -299,8 +356,12 @@ export default function CreateEventForm() {
                             disabled={isSubmitting}
                         >
                             {isSubmitting
-                                ? 'Creating Event...'
-                                : 'Create Event'}
+                                ? event
+                                    ? 'Updating Event...'
+                                    : 'Creating Event...'
+                                : event
+                                  ? 'Update Event'
+                                  : 'Create Event'}
                         </Button>
                     </form>
                 </CardContent>

@@ -1,22 +1,28 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import {
+    AlertCircle,
     CalendarDays,
     MapPin,
+    Pencil,
     Plus,
     RefreshCw,
-    AlertCircle,
+    Trash2,
 } from 'lucide-react';
+
 import { toast } from 'sonner';
 
-import { getMyEvents } from '@/lib/api/events';
+import { deleteEvent, getMyEvents } from '@/lib/api/events';
 import type { Event } from '@/types/event';
 
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+
 import {
     Select,
     SelectContent,
@@ -24,7 +30,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import Image from 'next/image';
+import { confirmDelete } from '../shared/ConfirmDeleteToast';
 
 const EVENT_TYPES = [
     'Environment',
@@ -45,8 +51,9 @@ type Pagination = {
 
 const ManageEvents = () => {
     const router = useRouter();
-
+    const [refreshKey, setRefreshKey] = useState(0);
     const [events, setEvents] = useState<Event[]>([]);
+
     const [pagination, setPagination] = useState<Pagination>({
         page: 1,
         limit: LIMIT,
@@ -98,18 +105,53 @@ const ManageEvents = () => {
         return () => {
             active = false;
         };
-    }, [pagination.page, eventType]);
+    }, [pagination.page, eventType, refreshKey]);
 
-   const handleFilterChange = (value: string | null) => {
-       setEventType(value ?? '');
-       setPagination((prev) => ({ ...prev, page: 1 }));
-   };
+    const handleFilterChange = (value: string | null) => {
+        setEventType(value ?? '');
+        setPagination((prev) => ({ ...prev, page: 1 }));
+    };
 
     const handlePageChange = (page: number) => {
         setPagination((prev) => ({
             ...prev,
             page,
         }));
+    };
+
+    const handleDelete = (id: string) => {
+        confirmDelete({
+            title: 'Delete this event?',
+            description:
+                'This action cannot be undone. The event will be permanently removed.',
+            onConfirm: async () => {
+                try {
+                    await deleteEvent(id);
+
+                    toast.success('Event deleted successfully', {
+                        description: 'The event has been removed.',
+                    });
+
+                    if (events.length === 1 && pagination.page > 1) {
+                        setPagination((prev) => ({
+                            ...prev,
+                            page: prev.page - 1,
+                        }));
+                    } else {
+                        setRefreshKey((prev) => prev + 1);
+                    }
+                } catch (err) {
+                    const message =
+                        err instanceof Error
+                            ? err.message
+                            : 'Failed to delete event';
+
+                    toast.error('Failed to delete event', {
+                        description: message,
+                    });
+                }
+            },
+        });
     };
 
     const getEventStatus = (date: string) => {
@@ -209,6 +251,7 @@ const ManageEvents = () => {
                         {Array.from({ length: 6 }).map((_, index) => (
                             <Card key={index} className="overflow-hidden">
                                 <div className="aspect-video animate-pulse bg-muted" />
+
                                 <CardContent className="space-y-3 p-5">
                                     <div className="h-5 w-3/4 animate-pulse rounded bg-muted" />
                                     <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
@@ -240,10 +283,8 @@ const ManageEvents = () => {
                                         ...prev,
                                         page: 1,
                                     }));
-                                    setEventType((prev) => {
-                                        const current = prev;
-                                        return current;
-                                    });
+
+                                    setEventType((prev) => prev);
                                 }}
                             >
                                 <RefreshCw className="mr-2 size-4" />
@@ -356,13 +397,37 @@ const ManageEvents = () => {
                                                     </span>
                                                 </div>
                                             </div>
+                                            <div className="mt-6 flex gap-3">
+                                                <Button
+                                                    variant="outline"
+                                                    className="flex-1"
+                                                    onClick={() =>
+                                                        router.push(
+                                                            `/manage-events/${event._id}/edit`,
+                                                        )
+                                                    }
+                                                >
+                                                    <Pencil size={16} />
+                                                    Edit
+                                                </Button>
 
+                                                <Button
+                                                    variant="destructive"
+                                                    className="flex-1"
+                                                    onClick={() =>
+                                                        handleDelete(event._id)
+                                                    }
+                                                >
+                                                    <Trash2 size={16} />
+                                                    Delete
+                                                </Button>
+                                            </div>
                                             <Button
                                                 variant="outline"
                                                 className="w-full"
                                                 onClick={() =>
                                                     router.push(
-                                                        `/events/${event._id}`,
+                                                        `/upcoming-events/${event._id}`,
                                                     )
                                                 }
                                             >

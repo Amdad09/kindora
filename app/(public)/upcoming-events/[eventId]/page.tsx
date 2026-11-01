@@ -1,10 +1,10 @@
-
 import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin, CalendarDays, ArrowLeft, Heart } from 'lucide-react';
+import { MapPin, CalendarDays, ArrowLeft } from 'lucide-react';
 
 import { getEventById } from '@/lib/api/events';
+import EventDetailsActions from '@/components/events/EventsDetailsAction';
 
 type EventDetailsPageProps = {
     params: Promise<{ eventId: string }>;
@@ -12,13 +12,16 @@ type EventDetailsPageProps = {
 
 const EventDetailsContent = async ({ params }: EventDetailsPageProps) => {
     const { eventId } = await params;
-    let event;
+
+    let event: Awaited<ReturnType<typeof getEventById>> | null = null;
 
     try {
         event = await getEventById(eventId);
     } catch (error) {
         console.error('Event details error:', error);
+    }
 
+    if (!event) {
         return (
             <div className="rounded-2xl border border-border bg-card p-10 text-center">
                 <h2 className="text-2xl font-bold">Event Not Found</h2>
@@ -115,18 +118,8 @@ const EventDetailsContent = async ({ params }: EventDetailsPageProps) => {
                             </div>
                         </div>
 
-                        <button
-                            type="button"
-                            disabled
-                            className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 font-semibold text-primary-foreground opacity-70"
-                        >
-                            <Heart size={18} />
-                            Join Event
-                        </button>
-
-                        <p className="mt-3 text-center text-xs text-muted-foreground">
-                            Event registration will be available soon.
-                        </p>
+                        {/* Join / Leave Actions */}
+                        <EventDetailsActions eventId={eventId} />
                     </aside>
                 </div>
             </div>
@@ -150,6 +143,7 @@ const EventDetailsPage = ({ params }: EventDetailsPageProps) => {
                     fallback={
                         <div className="animate-pulse overflow-hidden rounded-3xl border border-border bg-card">
                             <div className="aspect-video bg-muted" />
+
                             <div className="space-y-4 p-8">
                                 <div className="h-8 w-2/3 rounded-lg bg-muted" />
                                 <div className="h-4 w-full rounded-lg bg-muted" />

@@ -1,4 +1,4 @@
-import ManageEvents from '@/components/events/ManageEvents';
+import ManageEvents from "@/components/events/ManageEvents";
 
 const ManageEventsPage = () => {
     return <ManageEvents />;
