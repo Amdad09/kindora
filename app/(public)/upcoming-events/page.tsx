@@ -1,9 +1,9 @@
-export const instant = false;
+import { Suspense } from 'react';
 import { getUpcomingEvents } from '@/lib/api/events';
 import EventGrid from '@/components/events/EventGrid';
 import type { Event } from '@/types/event';
-
-const UpcomingEventsPage = async () => {
+import { Card, CardContent } from '@/components/ui/card';
+async function UpcomingEventsContent() {
     let events: Event[] = [];
     let hasError = false;
 
@@ -14,6 +14,21 @@ const UpcomingEventsPage = async () => {
         hasError = true;
     }
 
+    if (hasError) {
+        return (
+            <div className="rounded-2xl border border-border bg-card p-12 text-center">
+                <h2 className="text-xl font-semibold">Unable to Load Events</h2>
+                <p className="mt-2 text-muted-foreground">
+                    Something went wrong. Please try again later.
+                </p>
+            </div>
+        );
+    }
+
+    return <EventGrid events={events} />;
+}
+
+const UpcomingEventsPage = () => {
     return (
         <main className="min-h-screen px-4 py-16 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-350">
@@ -34,18 +49,28 @@ const UpcomingEventsPage = async () => {
                 </div>
 
                 {/* Events */}
-                {hasError ? (
-                    <div className="rounded-2xl border border-border bg-card p-12 text-center">
-                        <h2 className="text-xl font-semibold">
-                            Unable to Load Events
-                        </h2>
-                        <p className="mt-2 text-muted-foreground">
-                            Something went wrong. Please try again later.
-                        </p>
-                    </div>
-                ) : (
-                    <EventGrid events={events} />
-                )}
+                <Suspense
+                    fallback={
+                       
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {[1, 2, 3,4,5,6].map((item) => (
+                        <Card key={item} className="overflow-hidden">
+                            <div className="aspect-video animate-pulse bg-muted" />
+
+                            <CardContent className="space-y-4 p-5">
+                                <div className="h-4 w-1/3 animate-pulse rounded bg-muted" />
+                                <div className="h-6 w-3/4 animate-pulse rounded bg-muted" />
+                                <div className="h-4 w-full animate-pulse rounded bg-muted" />
+                                <div className="h-4 w-2/3 animate-pulse rounded bg-muted" />
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+          
+                    }
+                >
+                    <UpcomingEventsContent />
+                </Suspense>
             </div>
         </main>
     );

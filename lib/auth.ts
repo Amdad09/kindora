@@ -17,8 +17,8 @@ const dbName = envUrl('BETTER_AUTH_DB_NAME');
 if (secret.length < 32) throw new Error('At least 32 characters');
 const parsedUrl = new URL(baseUrl);
 
-// if (parsedUrl.protocol !== 'https:' && process.env.NODE_ENV === 'production')
-//     throw new Error('Must be nedded https protocol!');
+if (parsedUrl.protocol !== 'https:' && process.env.NODE_ENV === 'production')
+    throw new Error('Must be nedded https protocol!');
 
 const client = new MongoClient(mongoUrl);
 const db = client.db(dbName);
@@ -26,7 +26,7 @@ export const auth = betterAuth({
     appName: dbName,
     secret,
     baseURL: baseUrl,
-    trustedOrigins: [parsedUrl.origin],
+    trustedOrigins: [baseUrl, 'http://localhost:3000'],
 
     database: mongodbAdapter(db, {
         client,
@@ -42,5 +42,5 @@ export const auth = betterAuth({
         },
     },
 
-    plugins: [jwt()]
+    plugins: [jwt()],
 });
