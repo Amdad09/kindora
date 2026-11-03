@@ -2,7 +2,7 @@ import { HeartHandshake, LoaderCircle } from 'lucide-react';
 
 const Loading = () => {
     return (
-        <main className="flex min-h-[70vh] items-center justify-center px-5 py-16">
+        <main className="flex mt-20 min-h-[70vh] items-center justify-center px-5 py-16">
             <div className="flex flex-col items-center text-center">
                 {/* Logo Icon */}
                 <div className="flex size-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">

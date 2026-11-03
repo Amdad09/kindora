@@ -121,7 +121,11 @@ Create a `.env.local` file in the frontend project:
 ``` env
 NEXT_PUBLIC_API_URL=http://localhost:5000
 BETTER_AUTH_URL=http://localhost:3000
-BETTER_AUTH_DB_NAME=kindora_auth
+BETTER_AUTH_DB_NAME=
+BETTER_AUTH_SECRET=
+BETTER_AUTH_MONGO_URL=
+BETTER_AUTH_GOOGLE_CLIENT_ID=
+BETTER_AUTH_GOOGLE_CLIENT_SECRET=
 ```
 
 Use the variable names required by your current application
