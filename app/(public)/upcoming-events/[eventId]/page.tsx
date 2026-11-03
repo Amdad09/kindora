@@ -15,6 +15,14 @@ import {
 import { getEventById, getUpcomingEvents } from '@/lib/api/events';
 
 import EventDetailsActions from '@/components/events/EventsDetailsAction';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Event Details | Kindora',
+    description:
+        'Explore event details, discover community activities, and join meaningful social development events with Kindora.',
+};
+
 
 type EventDetailsPageProps = {
     params: Promise<{ eventId: string }>;
@@ -368,7 +376,7 @@ const EventDetailsContent = async ({ params }: EventDetailsPageProps) => {
 
 const EventDetailsPage = ({ params }: EventDetailsPageProps) => {
     return (
-        <main className="min-h-screen px-4 py-10 sm:px-6 lg:px-8">
+        <main className="min-h-screen px-4 py-10 mt-20 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-6xl">
                 <Suspense
                     fallback={
