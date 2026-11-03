@@ -126,7 +126,8 @@ export default function CreateEventForm({ event }: CreateEventFormProps) {
                 await createEvent(values);
 
                 toast.success('Event created successfully!');
-
+                router.push('/upcoming-events');
+                router.refresh();
                 reset(defaultValues);
             }
         } catch (error) {
@@ -139,7 +140,7 @@ export default function CreateEventForm({ event }: CreateEventFormProps) {
     };
 
     return (
-        <section className="mx-auto w-full max-w-3xl pt-30 px-4 py-12 sm:py-16">
+        <section className="mx-auto w-full max-w-3xl mt-20 px-4 py-12 sm:py-16">
             <div className="mb-8 space-y-2">
                 <p className="text-sm font-medium text-primary">
                     KINDORA / EVENT MANAGEMENT

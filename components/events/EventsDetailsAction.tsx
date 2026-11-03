@@ -118,6 +118,12 @@ const EventDetailsActions = ({ eventId, event }: Props) => {
         }
     };
 
+    console.log({
+        eventCreatorId: event.createdBy,
+        loggedInUserId: session?.user.id,
+        isOwner,
+    });
+    
     const buttonText = isOwner
         ? 'Your Event'
         : isPending || checking
