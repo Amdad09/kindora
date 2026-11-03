@@ -83,7 +83,7 @@ const JoinedEventsPage = () => {
     }, []);
 
     return (
-        <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <section className="mx-auto w-full pt-30 max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="space-y-2">

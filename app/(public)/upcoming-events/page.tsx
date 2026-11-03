@@ -60,6 +60,7 @@ const UpcomingEvents = () => {
         };
     }, [page, retry]);
 
+
     return (
         <section className="min-h-screen bg-background pt-20">
             <div className="mx-auto max-w-350 py-10 sm:px-6 lg:px-8">

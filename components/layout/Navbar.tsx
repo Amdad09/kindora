@@ -7,6 +7,8 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AuthAction from '../auth/AuthAction';
 import ThemeToggle from '../shared/ThemeToggle';
+import { useSession } from '@/lib/auth-client';
+import Logout from '../auth/Logout';
 
 const navLinks = [
     { href: '/', label: 'Home' },
@@ -27,6 +29,7 @@ export const Logo = () => (
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { data: session } = useSession();
     const pathname = usePathname();
     // const isHome = pathname === '/';
 
@@ -67,7 +70,7 @@ const Navbar = () => {
                 clearHideTimer();
                 hideTimer = setTimeout(() => {
                     setIsVisible(false);
-                }, 3000);
+                }, 2000);
             }
 
             lastScrollY = currentScrollY;
@@ -115,10 +118,17 @@ const Navbar = () => {
                 </div>
 
                 {/* Right Actions */}
-                <div className="flex items-center gap-3">
+                {/* Right Actions */}
+                <div className="flex shrink-0 items-center gap-3">
                     <ThemeToggle />
 
                     <AuthAction />
+
+                    {session && (
+                        <div className="hidden md:block">
+                            <Logout />
+                        </div>
+                    )}
 
                     {/* Mobile Menu Button */}
                     <button

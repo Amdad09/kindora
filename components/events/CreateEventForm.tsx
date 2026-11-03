@@ -104,6 +104,13 @@ export default function CreateEventForm({ event }: CreateEventFormProps) {
         });
     }, [event, reset]);
 
+    const getLocalDateTime = () => {
+        const now = new Date();
+        const offset = now.getTimezoneOffset() * 60000;
+
+        return new Date(now.getTime() - offset).toISOString().slice(0, 16);
+    };
+
     const onSubmit = async (values: CreateEventFormValues) => {
         setServerError('');
 
@@ -132,7 +139,7 @@ export default function CreateEventForm({ event }: CreateEventFormProps) {
     };
 
     return (
-        <section className="mx-auto w-full max-w-3xl px-4 py-12 sm:py-16">
+        <section className="mx-auto w-full max-w-3xl pt-30 px-4 py-12 sm:py-16">
             <div className="mb-8 space-y-2">
                 <p className="text-sm font-medium text-primary">
                     KINDORA / EVENT MANAGEMENT
@@ -295,7 +302,13 @@ export default function CreateEventForm({ event }: CreateEventFormProps) {
                             <Input
                                 id="eventDate"
                                 type="datetime-local"
-                                {...register('eventDate')}
+                                min={getLocalDateTime()}
+                                {...register('eventDate', {
+                                    validate: (value) =>
+                                        new Date(value).getTime() >
+                                            Date.now() ||
+                                        'Event date must be in the future',
+                                })}
                             />
 
                             {errors.eventDate && (

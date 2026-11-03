@@ -1,3 +1,4 @@
+'use client'
 import type { Event } from '@/types/event';
 import EventCard from './EventCard';
 
@@ -25,12 +26,15 @@ const EventGrid = ({ events, pagination, onPageChange }: EventGridProps) => {
             </div>
         );
     }
-
     return (
         <div className="space-y-10">
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {events.map((event) => (
-                    <EventCard key={event._id} event={event} />
+                    <EventCard
+                        key={event._id}
+                        event={event}
+                        
+                    />
                 ))}
             </div>
 

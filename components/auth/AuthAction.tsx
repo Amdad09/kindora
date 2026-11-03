@@ -3,10 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { signOut, useSession } from '@/lib/auth-client';
-import { toast } from 'sonner';
-import { ChevronDown, LogOut } from 'lucide-react';
+import { useSession } from '@/lib/auth-client';
+import { ChevronDown } from 'lucide-react';
+import Logout from './Logout';
 
 type AuthActionProps = {
     mobile?: boolean;
@@ -16,36 +15,14 @@ type AuthActionProps = {
 const AuthAction = ({ mobile = false, onNavigate }: AuthActionProps) => {
     const { data: session, isPending } = useSession();
     const [isOpen, setIsOpen] = useState(false);
-    const [isLoggingOut, setIsLoggingOut] = useState(false);
-    const router = useRouter();
+    
 
     const closeMenu = () => {
         setIsOpen(false);
         onNavigate?.();
     };
 
-    const handleLogout = async () => {
-        try {
-            setIsLoggingOut(true);
-
-            const { error } = await signOut();
-
-            if (error) {
-                toast.error(error.message || 'Logout failed');
-                return;
-            }
-
-            toast.success('Logged out successfully');
-            closeMenu();
-            router.push('/');
-            router.refresh();
-        } catch (error) {
-            console.error('Logout error:', error);
-            toast.error('Something went wrong. Please try again.');
-        } finally {
-            setIsLoggingOut(false);
-        }
-    };
+    
 
     if (isPending) {
         return (
@@ -160,15 +137,7 @@ const AuthAction = ({ mobile = false, onNavigate }: AuthActionProps) => {
 
                     {/* Logout */}
                     <div className="border-t border-border pt-1">
-                        <button
-                            type="button"
-                            onClick={handleLogout}
-                            disabled={isLoggingOut}
-                            className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-50"
-                        >
-                            <LogOut size={16} />
-                            {isLoggingOut ? 'Logging out...' : 'Logout'}
-                        </button>
+                        <Logout/>
                     </div>
                 </div>
             )}
