@@ -88,8 +88,8 @@ If frontend and backend are in separate repositories, clone each
 repository:
 
 ``` bash
-git clone <frontend-repository-url>
-git clone <backend-repository-url>
+git clone https://github.com/Amdad09/kindora 
+git clone https://github.com/Amdad09/kindora-server 
 ```
 
 Replace the placeholders with your repository URLs.
@@ -232,3 +232,17 @@ Kindora is currently under active development.
 
 No license has been specified yet. All rights are reserved by the
 project owner unless a license is added to this repository.
+
+
+Production API:
+https://kindora-server.onrender.com
+
+Make sure all required environment variables are configured in the Render dashboard.
+
+## 🔗 Related Project
+**Frontend:** https://kindora-six.vercel.app
+
+## 👨‍💻 Author
+**Amdadul Haque**
+
+Building Today, Scaling Tomorrow.

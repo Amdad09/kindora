@@ -67,7 +67,7 @@ export default function RegisterPage() {
         }
     };
     return (
-        <main className="flex min-h-[85vh] items-center justify-center px-4 py-12">
+        <main className="flex min-h-[85vh] mt-20 items-center justify-center px-4 py-12">
             <div className="grid w-full max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-xl md:grid-cols-2">
                 {/* Left: Brand panel */}
                 <div className="relative hidden flex-col justify-between overflow-hidden bg-primary p-10 text-primary-foreground md:flex">
@@ -224,7 +224,7 @@ export default function RegisterPage() {
                             href="/login"
                             className="font-semibold text-primary hover:underline"
                         >
-                            Sign in
+                            Log In
                         </Link>
                     </p>
                 </div>

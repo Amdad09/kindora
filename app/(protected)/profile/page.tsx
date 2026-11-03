@@ -180,7 +180,7 @@ const ProfilePage = () => {
                         href="/login"
                         className="mt-6 inline-flex rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground"
                     >
-                        Login
+                        Log In
                     </Link>
                 </div>
             </main>

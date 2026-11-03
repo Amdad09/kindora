@@ -47,7 +47,7 @@ const AuthAction = ({ mobile = false, onNavigate }: AuthActionProps) => {
                         : 'hidden rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 md:inline-flex'
                 }
             >
-                Login
+                Log In
             </Link>
         );
     }

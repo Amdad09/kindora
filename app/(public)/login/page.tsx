@@ -50,7 +50,7 @@ export default function LoginPage() {
         }
     };
     return (
-        <main className="flex min-h-[85vh] items-center justify-center px-4 py-12">
+        <main className="flex min-h-[85vh] mt-20 items-center justify-center px-4 py-12">
             <div className="grid w-full max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-xl md:grid-cols-2">
                 {/* Left: Brand panel */}
                 <div className="relative hidden flex-col justify-between overflow-hidden bg-primary p-10 text-primary-foreground md:flex">
@@ -154,7 +154,7 @@ export default function LoginPage() {
                             disabled={loading}
                             className="group flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
                         >
-                            {loading ? 'Signing in...' : 'Sign In'}
+                            {loading ? 'Logging out...' : 'Log In'}
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
                     </form>
