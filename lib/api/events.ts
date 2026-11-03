@@ -9,6 +9,20 @@ type MyEventsQuery = {
     eventType?: string;
 };
 
+type Pagination = {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+};
+
+type UpcomingEventsResponse = {
+    success: boolean;
+    message: string;
+    data: Event[];
+    pagination: Pagination;
+};
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const createEvent = async (eventData: CreateEventFormValues) => {
@@ -45,23 +59,23 @@ export const createEvent = async (eventData: CreateEventFormValues) => {
     return result.data;
 };
 
-// export const getUpcomingEvents = async (limit?: number): Promise<Event[]> => {
-//     if (!API_URL) {
-//         throw new Error('NEXT_PUBLIC_API_URL is not configured');
-//     }
-//     const query = limit ? `?limit=${limit}` : '';
-//     const res = await fetch(`${API_URL}/events${query}`, { cache: 'no-store' });
-//     if (!res.ok) throw new Error('Failed to fetch upcoming events');
-//     const result = await res.json();
-//     return result.data;
-// };
-
-export const getUpcomingEvents = async (limit = 100) => {
+export const getUpcomingEvents = async ({
+    page = 1,
+    limit = 6,
+}: {
+    page?: number;
+    limit?: number;
+}): Promise<UpcomingEventsResponse> => {
     if (!API_URL) {
         throw new Error('NEXT_PUBLIC_API_URL is not configured');
     }
 
-    const res = await fetch(`${API_URL}/events?limit=${limit}`, {
+    const query = new URLSearchParams({
+        page: String(page),
+        limit: String(limit),
+    });
+
+    const res = await fetch(`${API_URL}/events?${query}`, {
         cache: 'no-store',
     });
 
@@ -69,10 +83,26 @@ export const getUpcomingEvents = async (limit = 100) => {
         throw new Error('Failed to fetch upcoming events');
     }
 
-    const result = await res.json();
-
-    return result.data;
+    return res.json();
 };
+
+// export const getUpcomingEvents = async (limit = 100) => {
+//     if (!API_URL) {
+//         throw new Error('NEXT_PUBLIC_API_URL is not configured');
+//     }
+
+//     const res = await fetch(`${API_URL}/events?limit=${limit}`, {
+//         cache: 'no-store',
+//     });
+
+//     if (!res.ok) {
+//         throw new Error('Failed to fetch upcoming events');
+//     }
+
+//     const result = await res.json();
+
+//     return result.data;
+// };
 
 export const getMyEvents = async ({
     page = 1,
@@ -250,7 +280,6 @@ export const joinEvent = async (eventId: string) => {
 
     return result;
 };
-
 
 export const leaveEvent = async (eventId: string) => {
     if (!API_URL) {

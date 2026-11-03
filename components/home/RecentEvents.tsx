@@ -1,16 +1,23 @@
-
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { connection } from 'next/server';
+
 import { getUpcomingEvents } from '@/lib/api/events';
 import type { Event } from '@/types/event';
 import EventCard from '../events/EventCard';
-import { connection } from 'next/server';
 
 const RecentEvents = async () => {
-    await connection()
+    await connection();
+
     let events: Event[] = [];
+
     try {
-        events = await getUpcomingEvents(6);
+        const result = await getUpcomingEvents({
+            page: 1,
+            limit: 6,
+        });
+
+        events = result.data;
     } catch (error) {
         console.error('Upcoming events error:', error);
     }
@@ -36,7 +43,7 @@ const RecentEvents = async () => {
 
                     <Link
                         href="/upcoming-events"
-                        className="inline-flex items-center gap-2 font-semibold text-primary hover:gap-3 transition-all"
+                        className="inline-flex items-center gap-2 font-semibold text-primary transition-all hover:gap-3"
                     >
                         View All Events
                         <ArrowRight size={18} />

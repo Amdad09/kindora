@@ -78,7 +78,7 @@ const ManageEvents = () => {
                     limit: LIMIT,
                     eventType: eventType === 'all' ? undefined : eventType,
                 });
-
+                console.log('Manage events',result);
                 if (!active) return;
 
                 setEvents(result.data);
