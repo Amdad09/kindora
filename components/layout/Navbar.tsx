@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
-import ThemeToggle from '../shared/ThemeToggle';
-import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import AuthAction from '../auth/AuthAction';
+import ThemeToggle from '../shared/ThemeToggle';
 
 const navLinks = [
     { href: '/', label: 'Home' },
@@ -16,7 +16,7 @@ const navLinks = [
 export const Logo = () => (
     <div className="flex items-center">
         <div className="relative flex h-10 w-10 items-center justify-center">
-            <Image src='/logo.png' width={72} height={72} alt='Logo'/>
+            <Image src="/logo.png" width={72} height={72} alt="Logo" />
         </div>
 
         <span className="text-2xl font-bold tracking-tight text-primary">
@@ -28,17 +28,63 @@ export const Logo = () => (
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
-    const isHome = pathname === '/';
+    // const isHome = pathname === '/';
 
     const closeMenu = () => setIsOpen(false);
 
     const isActive = (href: string) =>
         href === '/' ? pathname === '/' : pathname.startsWith(href);
 
+    const [isVisible, setIsVisible] = useState(true);
+
+    useEffect(() => {
+        let lastScrollY = window.scrollY;
+        let hideTimer: ReturnType<typeof setTimeout> | undefined;
+
+        const clearHideTimer = () => {
+            if (hideTimer) {
+                clearTimeout(hideTimer);
+                hideTimer = undefined;
+            }
+        };
+
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            const heroHeight = window.innerHeight;
+
+            if (currentScrollY < heroHeight) {
+                clearHideTimer();
+                setIsVisible(true);
+                lastScrollY = currentScrollY;
+                return;
+            }
+
+            if (currentScrollY > lastScrollY + 5) {
+                clearHideTimer();
+                setIsVisible(false);
+            } else if (currentScrollY < lastScrollY - 5) {
+                setIsVisible(true);
+                clearHideTimer();
+                hideTimer = setTimeout(() => {
+                    setIsVisible(false);
+                }, 3000);
+            }
+
+            lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            clearHideTimer();
+        };
+    }, []);
+
     return (
         <header
-            className={`z-50 w-full px-4 pt-4 sm:px-6 lg:px-8 ${
-                isHome ? 'absolute left-0 top-0' : 'sticky top-0'
+            className={`fixed inset-x-0 top-5 z-50 transition-transform duration-300 ease-in-out ${
+                isVisible ? 'translate-y-0' : 'translate-y-[-130%]'
             }`}
         >
             <nav className="relative mx-auto flex h-18 max-w-375 items-center justify-between rounded-3xl border border-border/70 bg-card/85 px-5 shadow-sm backdrop-blur-xl sm:px-8">
