@@ -208,8 +208,8 @@ const ProfilePage = () => {
                 <section className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
                     {/* Cover */}
                     <div className="relative h-40 overflow-hidden bg-linear-to-r from-primary/30 via-primary/15 to-brand-accent/30 sm:h-52">
-                        <div className="absolute -right-10 -top-24 h-72 w-72 rounded-full border-[40px] border-white/10" />
-                        <div className="absolute -bottom-28 left-1/3 h-64 w-64 rounded-full border-[35px] border-white/10" />
+                        <div className="absolute -right-10 -top-24 h-72 w-72 rounded-full border-40 border-white/10" />
+                        <div className="absolute -bottom-28 left-1/3 h-64 w-64 rounded-full border-35 border-white/10" />
                     </div>
 
                     {/* Profile Information */}
@@ -351,7 +351,7 @@ const ProfilePage = () => {
             {/* Edit Profile Modal */}
             {isEditOpen && (
                 <div
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4 py-6 backdrop-blur-sm"
+                    className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 px-4 py-6 backdrop-blur-sm"
                     onMouseDown={(e) => {
                         if (e.target === e.currentTarget && !isSaving) {
                             setIsEditOpen(false);

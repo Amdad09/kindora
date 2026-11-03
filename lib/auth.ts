@@ -26,7 +26,7 @@ export const auth = betterAuth({
     appName: dbName,
     secret,
     baseURL: baseUrl,
-    trustedOrigins: [baseUrl, 'http://localhost:3000'],
+    trustedOrigins: [baseUrl, 'https://kindora-six.vercel.app'],
 
     database: mongodbAdapter(db, {
         client,

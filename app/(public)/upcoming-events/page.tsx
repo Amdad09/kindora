@@ -3,7 +3,9 @@ import { getUpcomingEvents } from '@/lib/api/events';
 import EventGrid from '@/components/events/EventGrid';
 import type { Event } from '@/types/event';
 import { Card, CardContent } from '@/components/ui/card';
+import { connection } from 'next/server';
 async function UpcomingEventsContent() {
+    await connection();
     let events: Event[] = [];
     let hasError = false;
 
