@@ -172,14 +172,15 @@ export default function RegisterPage() {
                                 className="text-sm font-medium"
                             >
                                 Profile Photo URL{' '}
-                                <span className="text-muted-foreground">
+                                {/* <span className="text-muted-foreground">
                                     (Optional)
-                                </span>
+                                </span> */}
                             </label>
                             <input
                                 id="image"
                                 name="image"
                                 type="url"
+                                required
                                 placeholder="https://example.com/photo.jpg"
                                 className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                             />
