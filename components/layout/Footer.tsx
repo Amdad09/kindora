@@ -20,10 +20,22 @@ const communityLinks = [
 ];
 
 const socialLinks = [
-    { icon: FaFacebook, href: 'https://facebook.com', label: 'Facebook' },
-    { icon: FaYoutube, href: 'https://instagram.com', label: 'Instagram' },
-    { icon: FaLinkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: FaGithub, href: 'https://github.com', label: 'GitHub' },
+    {
+        icon: FaFacebook,
+        href: 'https://www.facebook.com/Amdad09',
+        label: 'Facebook',
+    },
+    {
+        icon: FaYoutube,
+        href: 'https://www.youtube.com/@amdadul_09',
+        label: 'Youtube',
+    },
+    {
+        icon: FaLinkedin,
+        href: 'https://www.linkedin.com/in/Amdad09',
+        label: 'LinkedIn',
+    },
+    { icon: FaGithub, href: 'https://github.com/Amdad09', label: 'GitHub' },
 ];
 
 const Footer = () => {

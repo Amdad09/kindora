@@ -13,6 +13,9 @@ import Logout from '../auth/Logout';
 const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/upcoming-events', label: 'Upcoming Events' },
+    {href: '/about', label: 'About Us'},
+    {href: '/contact', label: 'Contact'},
+    {href: '/privacy', label: 'Privacy Policy'},
 ];
 
 export const Logo = () => (
