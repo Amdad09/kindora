@@ -6,24 +6,25 @@ import Link from 'next/link';
 import { Heart, ArrowRight } from 'lucide-react';
 
 import GoogleAuthButton from '@/components/auth/GoogleAuthButton';
-import { getSafeCallbackURL } from '@/lib/auth-redirect';
+// import { getSafeCallbackURL } from '@/lib/auth-redirect';
+import { useRouter } from 'next/navigation';
 
-
+const default_image =
+    'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85';
 
 export default function RegisterPage() {
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         const formData = new FormData(e.currentTarget);
 
         const name = String(formData.get('name') ?? '').trim();
         const email = String(formData.get('email') ?? '').trim();
-        const image = String(formData.get('image') ?? '').trim();
+        const image = String(formData.get('image') ?? '').trim() || default_image;
         const password = String(formData.get('password') ?? '');
 
-        // Password validation
         if (password.length < 6) {
             toast.error('Password must be at least 6 characters');
             return;
@@ -47,7 +48,7 @@ export default function RegisterPage() {
                 email,
                 password,
                 image: image || undefined,
-                callbackURL: getSafeCallbackURL()
+                callbackURL: '/',
             });
 
             if (error) {
@@ -55,10 +56,10 @@ export default function RegisterPage() {
                 return;
             }
 
-            toast.success('Account created successfully!', {
-                description: 'Please sign in with your new account.',
-            });
+            toast.success('Account created successfully!');
 
+            router.replace('/');
+            router.refresh();
         } catch (error) {
             console.error('Registration error:', error);
             toast.error('Something went wrong. Please try again.');
@@ -181,7 +182,8 @@ export default function RegisterPage() {
                                 name="image"
                                 type="url"
                                 required
-                                placeholder="https://example.com/photo.jpg"
+                                placeholder="https://images.unsplash.com/photo-event"
+                                defaultValue={default_image}
                                 className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                             />
                         </div>

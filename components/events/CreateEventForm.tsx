@@ -47,7 +47,8 @@ const defaultValues: CreateEventFormValues = {
     title: '',
     description: '',
     eventType: 'Community',
-    imageUrl: '',
+    imageUrl:
+        'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85',
     location: '',
     eventDate: '',
 };
